@@ -2,6 +2,7 @@
 import Map from '@/components/Map.vue';
 import { useStore } from '@/stores/store';
 import AlertLog from '@/components/AlertLog.vue';
+import RandomAlertToggle from '@/components/RandomAlertToggle.vue';
 import { Button } from '@/components/ui/button';
 
 const store = useStore();
@@ -30,6 +31,7 @@ const nuclearAlert = () => {
         <div class="size-4" :style="{ backgroundColor: store.getAlertColor(alert.id) }" />
         <p> {{ alert.name }} </p>
       </div>
+      <RandomAlertToggle />
       <Button variant="outline" @click="handleClearAlerts">Очистити всі тривоги</Button>
       <Button variant="destructive" @click="nuclearAlert">Ядерна атака</Button>
     </div>
