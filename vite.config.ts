@@ -20,5 +20,5 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  base: '/lpnu-hmi/',
+  base: process.env.NODE_ENV === 'production' ? '/lpnu-hmi/' : '/',
 })

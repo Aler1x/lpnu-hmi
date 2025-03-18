@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import Map from '@/components/Map.vue';
+import Map from '@/components/map/Map.vue';
 import { useStore } from '@/stores/store';
-import AlertLog from '@/components/AlertLog.vue';
-import RandomAlertToggle from '@/components/RandomAlertToggle.vue';
+import AlertLog from '@/components/map/AlertLog.vue';
+import RandomAlertToggle from '@/components/map/RandomAlertToggle.vue';
 import { Button } from '@/components/ui/button';
+import { ChevronLeft } from 'lucide-vue-next';
+import { ref } from 'vue';
 
 const store = useStore();
 const alerts = store.alerts;
+const showAlertLog = ref(false);
 
 const handleClearAlerts = () => {
   store.clearAlerts();
@@ -19,7 +22,15 @@ const nuclearAlert = () => {
 
 <template>
   <div class="flex flex-row w-screen h-screen justify-between overflow-hidden">
-    <AlertLog class="w-[400px] overflow-y-auto" />
+    <div class="flex flex-col gap-2 p-4">
+      <div class="flex gap-2 flex-row">
+        <router-link to="/" class="flex items-center gap-2">
+          <ChevronLeft class="w-6 h-6" />
+        </router-link>
+        <p class="text-2xl font-bold">Карта тривог</p>
+      </div>
+      <AlertLog v-if="showAlertLog" class="w-[400px] overflow-y-auto" />
+    </div>
 
     <div class="flex h-screen justify-center items-center">
       <Map />
@@ -33,6 +44,7 @@ const nuclearAlert = () => {
       <RandomAlertToggle />
       <Button variant="outline" @click="handleClearAlerts">Очистити всі тривоги</Button>
       <Button variant="destructive" @click="nuclearAlert">Ядерна атака</Button>
+      <Button variant="outline" @click="showAlertLog = !showAlertLog">Лог тривог</Button>
     </div>
   </div>
 </template> 
