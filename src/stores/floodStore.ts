@@ -22,48 +22,6 @@ export const useFloodStore = defineStore('flood', () => {
   // Get all rules as scenarios
   const scenarios = floodRules;
 
-  // Calculate risk level based on current factors
-  const risk = computed<RiskLevel>(() => {
-    // If any factor is not set, return 'none'
-    if (!factors.value.waterLevel || !factors.value.temperature ||
-      !factors.value.snow || !factors.value.rain) {
-      return 'none';
-    }
-
-    // Check against each rule
-    for (const rule of floodRules) {
-      let match = true;
-
-      // Check water level
-      if (rule.waterLevel !== null && rule.waterLevel !== factors.value.waterLevel) {
-        match = false;
-      }
-
-      // Check temperature
-      if (rule.temperature !== null && rule.temperature !== factors.value.temperature) {
-        match = false;
-      }
-
-      // Check snow
-      if (rule.snow !== null && rule.snow !== factors.value.snow) {
-        match = false;
-      }
-
-      // Check rain
-      if (rule.rain !== null && rule.rain !== factors.value.rain) {
-        match = false;
-      }
-
-      // If all factors match the rule, return the conclusion
-      if (match) {
-        return rule.conclusion;
-      }
-    }
-
-    // Default return if no rule matches
-    return 'none';
-  });
-
   // Set a specific factor
   function setFactor<T extends keyof Rule>(factor: T, value: Rule[T]) {
     factors.value[factor] = value;
