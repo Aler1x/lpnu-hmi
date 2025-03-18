@@ -54,7 +54,7 @@ const handleAlertRemove = () => {
   <svg xmlns:mapsvg="http://mapsvg.com" xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg"
     xmlns="http://www.w3.org/2000/svg" mapsvg:geoViewBox="22.138577 52.380834 40.220623 44.387017" width="612.47321"
-    height="408.0199" class="scale-150" fill="#FFF" stroke="#000" stroke-width="0.5" stroke-linecap="round">
+    height="408.0199" class="scale-125" fill="#FFF" stroke="#000" stroke-width="0.5" stroke-linecap="round">
     <g v-for="region in regions" :key="region.ua_id">
       <path :d="region.path" :title="region.name"
         :class="[region.is_occupied ? 'fill-red-600' : 'cursor-pointer hover:fill-slate-200']"
