@@ -3,6 +3,7 @@ import Map from '@/components/map/Map.vue';
 import { useStore } from '@/stores/store';
 import AlertLog from '@/components/map/AlertLog.vue';
 import RandomAlertToggle from '@/components/map/RandomAlertToggle.vue';
+import RandomAlertUserToggle from '@/components/map/RandomAlertUserToggle.vue';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-vue-next';
 import { ref } from 'vue';
@@ -33,7 +34,7 @@ const nuclearAlert = () => {
     </div>
 
     <div class="flex h-screen justify-center items-center">
-      <Map />
+      <Map/>
     </div>
 
     <div class="flex flex-col gap-2 z-50 p-2">
@@ -42,9 +43,10 @@ const nuclearAlert = () => {
         <p> {{ alert.name }} </p>
       </div>
       <RandomAlertToggle />
+      <RandomAlertUserToggle />
       <Button variant="outline" @click="handleClearAlerts">Очистити всі тривоги</Button>
       <Button variant="destructive" @click="nuclearAlert">Ядерна атака</Button>
-      <Button variant="outline" @click="showAlertLog = !showAlertLog">Лог тривог</Button>
+      <Button variant="outline" @click="showAlertLog = !showAlertLog">Журнал тривог</Button>
     </div>
   </div>
 </template> 

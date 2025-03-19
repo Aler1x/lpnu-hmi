@@ -1,4 +1,4 @@
-import type { Alert, AlertHistory, Infrastructure, Region } from '@/types';
+import type { Alert, AlertHistory, Infrastructure, Region } from '@/types/map';
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { regions as regionsData } from '@/stores/regions';
@@ -39,18 +39,20 @@ export const useStore = defineStore('store', () => {
     }
   }
 
-  const removeAlertForRegion = (regionId: string) => {
+  const removeAlertForRegion = (regionId: string, saveToHistory: boolean = true) => {
     const region = findRegion(regionId);
     if (region) {
       region.alert_id = undefined;
 
+      if (saveToHistory) {
       _alertHistory.value.push({
         id: Math.random().toString(36).substring(2, 15),
         region_id: regionId,
         alert_id: undefined,
         timestamp: new Date().toISOString(),
-        status: 'відбій',
-      });
+          status: 'відбій',
+        });
+      }
     }
   }
 

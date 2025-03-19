@@ -2,9 +2,10 @@
 import { useStore } from '@/stores/store';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader, DialogFooter } from '@/components/ui/dialog';
 import { computed, ref } from 'vue';
-import type { Region } from '@/types';
+import type { Region } from '@/types/map';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+
 const store = useStore();
 const regions = store.regions;
 const alerts = store.alerts;
@@ -51,18 +52,21 @@ const handleAlertRemove = () => {
 </script>
 
 <template>
-  <svg xmlns:mapsvg="http://mapsvg.com" xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns="http://www.w3.org/2000/svg" mapsvg:geoViewBox="22.138577 52.380834 40.220623 44.387017" width="612.47321"
-    height="408.0199" class="scale-125" fill="#FFF" stroke="#000" stroke-width="0.5" stroke-linecap="round">
-    <g v-for="region in regions" :key="region.ua_id">
-      <path :d="region.path" :title="region.name"
-        :class="[region.is_occupied ? 'fill-red-600' : 'cursor-pointer hover:fill-slate-200']"
-        :style="region.alert_id && !region.is_occupied ? { fill: store.getAlertColor(region.alert_id) } : {}"
-        @click="handleRegionClick(region)" />
-    </g>
-  </svg>
+  <div class="flex flex-col gap-2">    
+    <svg xmlns:mapsvg="http://mapsvg.com" xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns="http://www.w3.org/2000/svg" mapsvg:geoViewBox="22.138577 52.380834 40.220623 44.387017" width="612.47321"
+      height="408.0199" class="scale-125" fill="#FFF" stroke="#000" stroke-width="0.5" stroke-linecap="round">
+      <g v-for="region in regions" :key="region.ua_id">
+        <path :d="region.path" :title="region.name"
+          :class="[region.is_occupied ? 'fill-red-600' : 'cursor-pointer hover:fill-slate-200']"
+          :style="region.alert_id && !region.is_occupied ? { fill: store.getAlertColor(region.alert_id) } : {}"
+          @click="handleRegionClick(region)" />
+      </g>
+    </svg>
+  </div>
 
+  <!-- Region dialog -->
   <Dialog v-model:open="isDialogOpen">
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>

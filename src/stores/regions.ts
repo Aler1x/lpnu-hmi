@@ -1,4 +1,4 @@
-import type { Region } from '@/types';
+import type { Region } from '@/types/map';
 
 export const regions: Region[] = [
   {

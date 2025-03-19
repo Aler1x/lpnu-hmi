@@ -1,4 +1,4 @@
-import type { Infrastructure } from '@/types';
+import type { Infrastructure } from '@/types/map';
 
 export const infrastructure: Infrastructure[] = [
   {
