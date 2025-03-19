@@ -41,12 +41,4 @@ export const alerts: Alert[] = [
     image_path: '@/assets/images/chemical.webp',
     color: '#af52de',
   },
-  {
-    id: 'nuclear',
-    name: 'Ядерна атака',
-    description: 'Загроза ядерної атаки',
-    severity: 'high',
-    image_path: '@/assets/images/nuclear.webp',
-    color: '#ff0000',
-  },
 ];
