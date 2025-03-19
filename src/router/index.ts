@@ -15,12 +15,24 @@ const routes = [
     path: '/flood-monitor',
     name: 'FloodMonitor',
     component: () => import('@//views//FloodMonitor.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/'
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
+  // @ts-expect-error
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  }
 })
 
 export default router 

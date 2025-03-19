@@ -11,14 +11,6 @@ import { ref } from 'vue';
 const store = useStore();
 const alerts = store.alerts;
 const showAlertLog = ref(false);
-
-const handleClearAlerts = () => {
-  store.clearAlerts();
-}
-
-const nuclearAlert = () => {
-  store.nuclearAlert();
-}
 </script>
 
 <template>
@@ -44,8 +36,6 @@ const nuclearAlert = () => {
       </div>
       <RandomAlertToggle />
       <RandomAlertUserToggle />
-      <Button variant="outline" @click="handleClearAlerts">Очистити всі тривоги</Button>
-      <Button variant="destructive" @click="nuclearAlert">Ядерна атака</Button>
       <Button variant="outline" @click="showAlertLog = !showAlertLog">Журнал тривог</Button>
     </div>
   </div>

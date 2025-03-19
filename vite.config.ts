@@ -21,4 +21,11 @@ export default defineConfig({
     },
   },
   base: process.env.NODE_ENV === 'production' ? '/lpnu-hmi/' : '/',
+  build: {
+    rollupOptions: {
+      input: {
+        app: 'index.html',
+      },
+    },
+  },
 })
