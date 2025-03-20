@@ -4,6 +4,16 @@ import { computed } from 'vue';
 import { AlertCircle } from 'lucide-vue-next';
 import { floodRules } from '@/types/flood';
 
+// Import images directly
+import waterHigh from '@/assets/flood/water-high.png';
+import waterModerate from '@/assets/flood/water-moderate.png';
+import tempHigh from '@/assets/flood/temp-high.png';
+import tempModerate from '@/assets/flood/temp-moderate.png';
+import snowHigh from '@/assets/flood/snow-high.png';
+import snowModerate from '@/assets/flood/snp-moderate.png';
+import rainHeavy from '@/assets/flood/rain-heavy.png';
+import rainModerate from '@/assets/flood/rain-moderate.png';
+
 const store = useFloodStore();
 const factors = computed(() => store.factors);
 const riskLevel = computed(() => store.riskLevel);
@@ -32,6 +42,18 @@ const rainLabel = computed(() => {
   if (factors.value.rain === 'moderate') return 'Помірний';
   if (factors.value.rain === 'none') return 'Немає';
   return 'Не вказано';
+});
+
+// Rule conclusion text
+const ruleDescription = computed(() => {
+  switch (riskLevel.value) {
+    case 'evacuate':
+      return 'Евакуювати місто';
+    case 'heightened':
+      return 'Посилити увагу';
+    default:
+      return 'Не турбуватись';
+  }
 });
 
 // Get active rule ID
@@ -68,18 +90,6 @@ const activeRuleId = computed(() => {
   }
   
   return null;
-});
-
-// Rule conclusion text
-const ruleDescription = computed(() => {
-  switch (riskLevel.value) {
-    case 'evacuate':
-      return 'Евакуювати місто';
-    case 'heightened':
-      return 'Посилити увагу';
-    default:
-      return 'Не турбуватись';
-  }
 });
 
 // Rule text color
@@ -140,87 +150,96 @@ const alertColor = computed(() => {
   if (riskLevel.value === 'heightened') return 'bg-yellow-500';
   return 'bg-green-500';
 });
-
-const iconStyle = computed(() => {
-  const baseAnimation = 'animate-pulse';
-  if (riskLevel.value === 'evacuate') return `${baseAnimation} text-red-600 animate-duration-500`;
-  if (riskLevel.value === 'heightened') return `${baseAnimation} text-yellow-500 animate-duration-1000`;
-  return 'text-green-500';
-});
 </script>
 
 <template>
-  <div class="p-2 bg-white rounded-lg shadow-md h-full flex flex-col">
-    <!-- Analysis section - top -->
-    <div class="mb-4">
-      <h2 class="text-xl font-bold mb-2 text-center">Аналіз даних</h2>
-      
-      <!-- Current rule information -->
-      <div class="mb-3 p-2 border rounded-lg bg-gray-50">
-        <div class="text-center">
-          <span class="font-medium">Правило №</span>
-          <span v-if="activeRuleId" class="font-bold text-lg">{{ activeRuleId }}</span>
-          <span v-else class="text-gray-500">Немає відповідного правила</span>
-        </div>
-        
-        <div class="text-center mt-1">
-          <span class="font-medium">Висновок: </span>
-          <span :class="['font-bold', ruleColor]">{{ ruleDescription }}</span>
-        </div>
+  <div class="p-2 bg-white rounded-lg shadow-md">
+
+    <div class="flex flex-col items-center gap-4">
+      <h2 class="text-xl font-bold text-center">Аналіз даних</h2>
+      <div class="flex items-center">
+        <span class="font-medium mr-2">Активне правило:</span>
+        <span :class="['px-2 py-1 rounded font-bold', ruleColor]">
+          {{ activeRuleId !== null ? `#${activeRuleId}` : 'Немає' }}
+        </span>
       </div>
-      
+
+      <!-- Data Visualization with Images -->
       <div class="space-y-4">
-        <div class="grid grid-cols-2 gap-2">
-          <div :class="['p-2 rounded', getBgColor('waterLevel', factors.waterLevel)]">
-            <h3 class="font-medium">Рівень води</h3>
-            <p>{{ waterLevelLabel }}</p>
+        <!-- Images for factors -->
+        <div class="flex flex-col items-center mb-4">
+          <div class="grid grid-cols-2 gap-4 md:gap-8 md:grid-cols-4 mb-4">
+            <!-- Water Level Image -->
+            <div class="flex flex-col items-center p-4 border rounded-lg"
+              :class="getBgColor('waterLevel', factors.waterLevel)">
+              <div class="font-medium mb-2">Рівень води</div>
+              <img v-if="factors.waterLevel === 'high'" :src="waterHigh" alt="High Water Level" 
+                class="w-24 h-24 object-contain rounded-lg" />
+              <img v-else-if="factors.waterLevel === 'moderate'" :src="waterModerate" alt="Moderate Water Level" 
+                class="w-24 h-24 object-contain rounded-lg" />
+              <div v-else class="w-24 h-24 bg-gray-200 flex items-center justify-center rounded">
+                <span class="text-gray-500">Немає</span>
+              </div>
+              <div class="mt-2">{{ waterLevelLabel }}</div>
+            </div>
+
+            <!-- Temperature Image -->
+            <div class="flex flex-col items-center p-4 border rounded-lg"
+              :class="getBgColor('temperature', factors.temperature)">
+              <div class="font-medium mb-2">Температура</div>
+              <img v-if="factors.temperature === 'high'" :src="tempHigh" alt="High Temperature" 
+                class="w-24 h-24 object-contain rounded-lg" />
+              <img v-else-if="factors.temperature === 'medium'" :src="tempModerate" alt="Medium Temperature" 
+                class="w-24 h-24 object-contain rounded-lg" />
+              <div v-else class="w-24 h-24 bg-gray-200 flex items-center justify-center rounded">
+                <span class="text-gray-500">Немає</span>
+              </div>
+              <div class="mt-2">{{ temperatureLabel }}</div>
+            </div>
+
+            <!-- Snow Image -->
+            <div class="flex flex-col items-center p-4 border rounded-lg" :class="getBgColor('snow', factors.snow)">
+              <div class="font-medium mb-2">Сніг в горах</div>
+              <img v-if="factors.snow === 'large'" :src="snowHigh" alt="Large Snow" 
+                class="w-24 h-24 object-contain rounded-lg" />
+              <img v-else-if="factors.snow === 'small'" :src="snowModerate" alt="Small Snow" 
+                class="w-24 h-24 object-contain rounded-lg" />
+              <div v-else class="w-24 h-24 bg-gray-200 flex items-center justify-center rounded">
+                <span class="text-gray-500">Немає</span>
+              </div>
+              <div class="mt-2">{{ snowLabel }}</div>
+            </div>
+
+            <!-- Rain Image -->
+            <div class="flex flex-col items-center p-4 border rounded-lg" :class="getBgColor('rain', factors.rain)">
+              <div class="font-medium mb-2">Дощ</div>
+              <img v-if="factors.rain === 'heavy'" :src="rainHeavy" alt="Heavy Rain" 
+                class="w-24 h-24 object-contain rounded-lg" />
+              <img v-else-if="factors.rain === 'moderate'" :src="rainModerate" alt="Moderate Rain" 
+                class="w-24 h-24 object-contain rounded-lg" />
+              <div v-else class="w-24 h-24 bg-gray-200 flex items-center justify-center rounded">
+                <span class="text-gray-500">Немає</span>
+              </div>
+              <div class="mt-2">{{ rainLabel }}</div>
+            </div>
           </div>
-          
-          <div :class="['p-2 rounded', getBgColor('temperature', factors.temperature)]">
-            <h3 class="font-medium">Температура</h3>
-            <p>{{ temperatureLabel }}</p>
+
+          <!-- Conclusion Display -->
+          <div class="w-full mt-4 p-4 border-t pt-6">
+            <div class="text-center font-bold text-lg mb-2">Висновок:</div>
+            <div class="text-center text-xl font-bold" :class="ruleColor">
+              {{ ruleDescription }}
+            </div>
           </div>
-          
-          <div :class="['p-2 rounded', getBgColor('snow', factors.snow)]">
-            <h3 class="font-medium">Сніг в горах</h3>
-            <p>{{ snowLabel }}</p>
+
+          <!-- Alert section - bottom -->
+          <div :class="['p-4 rounded-lg text-white w-full mt-4', alertColor]">
+            <div class="flex items-center">
+              <AlertCircle class="mr-2" :size="24" />
+              <h3 class="font-bold text-lg">{{ alertTitle }}</h3>
+            </div>
+            <p>{{ alertMessage }}</p>
           </div>
-          
-          <div :class="['p-2 rounded', getBgColor('rain', factors.rain)]">
-            <h3 class="font-medium">Дощ</h3>
-            <p>{{ rainLabel }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Alert section - bottom -->
-    <div class="mt-auto">
-      <h2 class="text-xl font-bold mb-2 text-center">Сповіщення</h2>
-      
-      <div :class="['rounded-lg overflow-hidden', alertColor]">
-        <div class="p-4 text-white">
-          <div class="flex items-center gap-2 mb-2">
-            <AlertCircle :class="iconStyle" :size="24" />
-            <h2 class="text-xl font-bold">{{ alertTitle }}</h2>
-          </div>
-          <p class="text-sm mb-2">{{ alertMessage }}</p>
-        </div>
-        
-        <div class="p-2 bg-white">
-          <h3 class="font-medium mb-1">Інструкції:</h3>
-          <ul class="list-disc pl-5 space-y-0.5 text-sm">
-            <li v-if="riskLevel === 'evacuate'">Зберіть необхідні речі та документи</li>
-            <li v-if="riskLevel === 'evacuate'">Закрийте газ та електрику</li>
-            <li v-if="riskLevel === 'evacuate'">Прямуйте до найближчого пункту евакуації</li>
-            
-            <li v-if="riskLevel === 'heightened'">Слідкуйте за оновленнями інформації</li>
-            <li v-if="riskLevel === 'heightened'">Підготуйте запас води та продуктів</li>
-            <li v-if="riskLevel === 'heightened'">Тримайте документи в доступному місці</li>
-            
-            <li v-if="riskLevel === 'none'">Продовжуйте звичайну діяльність</li>
-            <li v-if="riskLevel === 'none'">Немає потреби в спеціальних заходах</li>
-          </ul>
         </div>
       </div>
     </div>

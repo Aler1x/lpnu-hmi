@@ -2,7 +2,7 @@
 import { useFloodStore } from '@/stores/floodStore';
 import { computed, onUnmounted } from 'vue';
 import { Button } from '@/components/ui/button';
-import VisualizationFrame from '@/components/flood/VisualizationFrame.vue';
+// import VisualizationFrame from '@/components/flood/VisualizationFrame.vue';
 import AnalysisAndAlertFrame from '@/components/flood/AnalysisAndAlertFrame.vue';
 import { LoaderCircle, ChevronLeft } from 'lucide-vue-next';
 
@@ -76,8 +76,12 @@ onUnmounted(() => {
           {{ i }}
         </Button>
       </div>
+
+      <div class="fade-in transition-all rounded-lg overflow-hidden max-w-2xl mx-auto">
+          <AnalysisAndAlertFrame />
+      </div>
             
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="fade-in transition-all rounded-lg overflow-hidden">
           <AnalysisAndAlertFrame />
         </div>
@@ -85,7 +89,7 @@ onUnmounted(() => {
         <div class="fade-in transition-all rounded-lg overflow-hidden">
           <VisualizationFrame />
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template> 
