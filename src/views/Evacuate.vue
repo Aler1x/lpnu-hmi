@@ -23,7 +23,7 @@ function getAlgorithmDetails() {
   <div class="min-h-screen bg-background p-4">
     <div class="mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="space-y-4">
+        <div class="space-y-2">
           <Card class="p-4">
             <CardHeader>
               <CardTitle class="text-center text-xl">Кількість людей:</CardTitle>
@@ -49,15 +49,15 @@ function getAlgorithmDetails() {
           </Button>
         </div>
 
-        <Card class="md:row-span-2 p-6 h-full">
+        <Card class="md:row-span-2 p-2 h-full">
           <CardHeader>
             <CardTitle class="text-center text-xl">Результат розрахунку:</CardTitle>
           </CardHeader>
           <CardContent>
             <div v-if="store.result && !store.result.includes('Помилка')" class="h-full">
               <div class="bg-muted p-4 rounded-lg overflow-auto">
-                <h3 class="font-medium text-center mb-3">Розподіл транспорту</h3>
-                <table class="w-full border-collapse mb-4">
+                <h3 class="font-medium text-center">Розподіл транспорту</h3>
+                <table class="w-full border-collapse">
                   <thead>
                     <tr class="border-b">
                       <th class="py-2 px-2 text-left">Транспорт</th>
@@ -84,7 +84,7 @@ function getAlgorithmDetails() {
                   </tfoot>
                 </table>
 
-                <div class="bg-muted/50 p-3 rounded-lg space-y-2">
+                <div class="bg-muted/50 p-2 rounded-lg space-y-2">
                   <p class="text-center font-medium">
                     Загальна кількість людей: {{ store.peopleValue }}
                   </p>
@@ -105,7 +105,7 @@ function getAlgorithmDetails() {
                 </div>
 
                 <!-- Algorithm Messages -->
-                <div v-if="getAlgorithmDetails().message" class="mt-4 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                <div v-if="getAlgorithmDetails().message" class="mt-2 bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">
                   <h4 class="font-medium text-center mb-2">Додаткова інформація:</h4>
                   <p class="text-sm whitespace-pre-wrap">{{ getAlgorithmDetails().message }}</p>
                 </div>
