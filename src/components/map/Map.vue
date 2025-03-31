@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useStore } from '@/stores/store';
+import { useAlertStore } from '@/stores/alert';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader, DialogFooter } from '@/components/ui/dialog';
 import { computed, ref } from 'vue';
 import type { Region } from '@/types/map';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 
-const store = useStore();
+const store = useAlertStore();
 const regions = store.regions;
 const alerts = store.alerts;
 

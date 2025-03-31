@@ -3,9 +3,9 @@
 import { ref, onUnmounted } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Bell, BellOff } from 'lucide-vue-next';
-import { useStore } from '@/stores/store';
+import { useAlertStore } from '@/stores/alert';
 
-const store = useStore();
+const store = useAlertStore();
 const isActive = ref(false);
 
 // Store intervals and timers

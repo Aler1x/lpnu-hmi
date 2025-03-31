@@ -13,6 +13,9 @@ import { Button } from '@/components/ui/button';
       <RouterLink to="/flood-monitor">
         <Button class="w-full">Моніторинг повеней</Button>
       </RouterLink>
+      <RouterLink to="/evacuate">
+        <Button class="w-full">Евакуація</Button>
+      </RouterLink>
     </div>
   </div>
 </template> 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Map from '@/components/map/Map.vue';
-import { useStore } from '@/stores/store';
+import { useAlertStore } from '@/stores/alert';
 import AlertLog from '@/components/map/AlertLog.vue';
 import RandomAlertToggle from '@/components/map/RandomAlertToggle.vue';
 import RandomAlertUserToggle from '@/components/map/RandomAlertUserToggle.vue';
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-vue-next';
 import { ref } from 'vue';
 
-const store = useStore();
+const store = useAlertStore();
 const alerts = store.alerts;
 const showAlertLog = ref(false);
 </script>

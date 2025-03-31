@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { useStore } from '@/stores/store';
+import { useAlertStore } from '@/stores/alert';
 import { ref, onMounted, onUnmounted } from 'vue';
 import type { Region } from '@/types/map';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Bell, BellOff } from 'lucide-vue-next';
 
-const store = useStore();
+const store = useAlertStore();
 const regions = store.regions;
 const alerts = store.alerts;
 

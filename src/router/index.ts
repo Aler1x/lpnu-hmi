@@ -17,6 +17,11 @@ const routes = [
     component: () => import('@//views//FloodMonitor.vue')
   },
   {
+    path: '/evacuate',
+    name: 'Evacuate',
+    component: () => import('@/views/Evacuate.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/'
   }

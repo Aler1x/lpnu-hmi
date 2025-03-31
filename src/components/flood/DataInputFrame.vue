@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFloodStore } from '@/stores/floodStore';
+import { useFloodStore } from '@/stores/flood';
 import { computed } from 'vue';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';

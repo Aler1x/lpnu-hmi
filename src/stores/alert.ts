@@ -1,11 +1,11 @@
 import type { Alert, AlertHistory, Infrastructure, Region } from '@/types/map';
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { regions as regionsData } from '@/stores/regions';
-import { alerts as alertsData } from '@/stores/alerts';
-import { infrastructure as infrastructureData } from '@/stores/infrastructure';
+import { regions as regionsData } from '@/stores/data/regions';
+import { alerts as alertsData } from '@/stores/data/alerts';
+import { infrastructure as infrastructureData } from '@/stores/data/infrastructure';
 
-export const useStore = defineStore('store', () => {
+export const useAlertStore = defineStore('alert', () => {
   const _regions = ref<Region[]>(regionsData);
   const _alerts = ref<Alert[]>(alertsData);
   const _infrastructure = ref<Infrastructure[]>(infrastructureData);
@@ -146,6 +146,4 @@ export const useStore = defineStore('store', () => {
     clearAlerts,
     nuclearAlert,
   };
-}, {
-  persist: false,
 });

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useStore } from '@/stores/store';
+import { useAlertStore } from '@/stores/alert';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-const store = useStore();
+const store = useAlertStore();
 const history = store.alertHistory;
 </script>
 

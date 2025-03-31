@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFloodStore } from '@/stores/floodStore';
+import { useFloodStore } from '@/stores/flood';
 import { computed } from 'vue';
 import { CloudRain, Thermometer, Droplets, MountainSnow } from 'lucide-vue-next';
 
