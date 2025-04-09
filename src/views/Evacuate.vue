@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useEvacuateStore } from '@/stores/evacuate';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 
 const store = useEvacuateStore();
 
@@ -20,11 +20,11 @@ function getAlgorithmDetails() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background p-4">
+  <div class="min-h-screen bg-background p-4 max-h-screen">
     <div class="mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="space-y-2">
-          <Card class="p-4">
+        <div>
+          <Card>
             <CardHeader>
               <CardTitle class="text-center text-xl">Кількість людей:</CardTitle>
             </CardHeader>
@@ -42,11 +42,13 @@ function getAlgorithmDetails() {
                 </Button>
               </div>
             </CardContent>
+            <CardFooter>
+              <Button size="lg" class="px-8 py-6 text-lg w-full" @click="store.calculateTransport">
+                Розрахувати
+              </Button>
+            </CardFooter>
           </Card>
 
-          <Button size="lg" class="px-8 py-6 text-lg w-full" @click="store.calculateTransport">
-            Розрахувати
-          </Button>
         </div>
 
         <Card class="md:row-span-2 p-2 h-full">
@@ -78,19 +80,13 @@ function getAlgorithmDetails() {
                     <tr class="font-semibold border-t-2">
                       <td class="py-2 px-2">Всього:</td>
                       <td class="py-2 px-2 text-center">{{ store.transportStats.totalUnits }}</td>
-                      <td class="py-2 px-2 text-center">-</td>
+                      <td class="py-2 px-2 text-center">{{ store.peopleValue }}</td>
                       <td class="py-2 px-2 text-center">{{ store.transportStats.totalCapacity }}</td>
                     </tr>
                   </tfoot>
                 </table>
 
                 <div class="bg-muted/50 p-2 rounded-lg space-y-2">
-                  <p class="text-center font-medium">
-                    Загальна кількість людей: {{ store.peopleValue }}
-                  </p>
-                  <p class="text-center font-medium">
-                    Загальна кількість місць: {{ store.transportStats.totalCapacity }}
-                  </p>
                   <p v-if="getAlgorithmDetails().coefficient !== null" class="text-center font-medium">
                     Коефіцієнт розподілу (p): {{ getAlgorithmDetails().coefficient.toFixed(4) }}
                   </p>
@@ -130,8 +126,8 @@ function getAlgorithmDetails() {
                   <tr class="border-b">
                     <th class="py-2 px-4 text-left">Назва</th>
                     <th class="py-2 px-4 text-left">Місткість</th>
-                    <th class="py-2 px-4 text-left">Kmin</th>
-                    <th class="py-2 px-4 text-left">Kmax</th>
+                    <th class="py-2 px-4 text-left">Мін. одиниць</th>
+                    <th class="py-2 px-4 text-left">Макс. одиниць</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -140,6 +136,12 @@ function getAlgorithmDetails() {
                     <td class="py-2 px-4">{{ transport.capacity }}</td>
                     <td class="py-2 px-4">{{ transport.Kmin }}</td>
                     <td class="py-2 px-4">{{ transport.Kmax }}</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-4">Всього:</td>
+                    <td class="py-2 px-4">-</td>
+                    <td class="py-2 px-4">{{ store.transportData.reduce((acc, transport) => acc + transport.Kmin * transport.capacity, 0) }}</td>
+                    <td class="py-2 px-4">{{ store.transportData.reduce((acc, transport) => acc + transport.Kmax * transport.capacity, 0) }}</td>
                   </tr>
                 </tbody>
               </table>

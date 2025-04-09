@@ -44,10 +44,10 @@ export const useEvacuateStore = defineStore('evacuate', () => {
     peopleToEvacuate: number
   ): CalculationResult | { error: string } {
     if (!fleet || fleet.length === 0) {
-      return { error: "Transport fleet data cannot be empty." };
+      return { error: "Дані про транспортний парк не можуть бути порожніми." };
     }
     if (peopleToEvacuate < 0) {
-      return { error: "Number of people to evacuate cannot be negative." };
+      return { error: "Кількість людей для евакуації не може бути від'ємною." };
     }
 
     let sumMinCapacity = 0;
@@ -56,7 +56,7 @@ export const useEvacuateStore = defineStore('evacuate', () => {
 
     for (const transport of fleet) {
       if (transport.minUnits < 0 || transport.maxUnits < transport.minUnits || transport.capacity <= 0) {
-        return { error: `Invalid data for transport type "${transport.name}": minUnits (${transport.minUnits}), maxUnits (${transport.maxUnits}), capacity (${transport.capacity}). Ensure min >= 0, max >= min, capacity > 0.` };
+        return { error: `Неправильні дані для типу транспорту "${transport.name}": мінОдиниць (${transport.minUnits}), максОдиниць (${transport.maxUnits}), місткість (${transport.capacity}). Переконайтеся, що мін >= 0, макс >= мін, місткість > 0.` };
       }
       sumMinCapacity += transport.capacity * transport.minUnits;
       sumMaxCapacity += transport.capacity * transport.maxUnits;
@@ -68,14 +68,14 @@ export const useEvacuateStore = defineStore('evacuate', () => {
         results: minUnitsFleet,
         totalCalculatedCapacity: sumMinCapacity,
         partitionCoefficient_p: 1,
-        message: "Target is 0 people; deploying minimum required units."
+        message: "Ціль - 0 людей; використовується мінімальна кількість одиниць транспорту."
       };
     }
 
     const tolerance = 1e-9;
     if (peopleToEvacuate < sumMinCapacity - tolerance || peopleToEvacuate > sumMaxCapacity + tolerance) {
       return {
-        error: `The required number of people (${peopleToEvacuate}) is outside the achievable capacity range [${sumMinCapacity}, ${sumMaxCapacity}]. Cannot proceed.`,
+        error: `Необхідна кількість людей (${peopleToEvacuate}) знаходиться поза досяжним діапазоном місткості [${sumMinCapacity}, ${sumMaxCapacity}]. Неможливо продовжити.`,
       };
     }
 
@@ -93,7 +93,7 @@ export const useEvacuateStore = defineStore('evacuate', () => {
     if (Math.abs(capacityRange) < tolerance) {
       p = NaN;
       one_minus_p = NaN;
-      output.message = "Required capacity equals the fixed total capacity. Allocating min/max units for each type.";
+      output.message = "Необхідна місткість дорівнює фіксованій загальній місткості. Розподіл мін/макс одиниць для кожного типу.";
       output.results = minUnitsFleet;
       output.totalCalculatedCapacity = sumMinCapacity;
       output.partitionCoefficient_p = p;
@@ -150,10 +150,10 @@ export const useEvacuateStore = defineStore('evacuate', () => {
 
     if (output.totalCalculatedCapacity > peopleToEvacuate + tolerance) {
       const excessCapacity = output.totalCalculatedCapacity - peopleToEvacuate;
-      const capacityMsg = `Total capacity (${output.totalCalculatedCapacity}) exceeds target (${peopleToEvacuate}) by ${excessCapacity.toFixed(0)} due to rounding up vehicle units.`;
+      const capacityMsg = `Загальна місткість (${output.totalCalculatedCapacity}) перевищує цільову (${peopleToEvacuate}) на ${excessCapacity.toFixed(0)} через округлення кількості транспортних одиниць.`;
       output.message = output.message ? output.message + "\n" + capacityMsg : capacityMsg;
     } else if (Math.abs(output.totalCalculatedCapacity - peopleToEvacuate) > 1e-6) {
-      const warningMsg = `Warning: Final calculated capacity (${output.totalCalculatedCapacity.toFixed(3)}) differs from target (${peopleToEvacuate}) by more than rounding tolerance.`;
+      const warningMsg = `Увага: Кінцева розрахована місткість (${output.totalCalculatedCapacity.toFixed(3)}) відрізняється від цільової (${peopleToEvacuate}) більше ніж на допустиме відхилення.`;
       output.message = output.message ? output.message + "\n" + warningMsg : warningMsg;
     }
 
